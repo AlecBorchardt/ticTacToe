@@ -1,0 +1,13 @@
+html, body{
+    margin: 0;
+    height: auto;
+    width: auto;
+}
+body{
+    background-color: rgb(37, 37, 37);
+}
+#pageContents{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+}

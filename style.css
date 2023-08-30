@@ -1,13 +1,64 @@
+:root{
+    --backgroundColor: #292c33;
+    --color1: #313e35;
+    --color2: #b14b34;
+    --color3: #e86726;
+    --color4: #fe9b33;
+}
 html, body{
     margin: 0;
     height: auto;
     width: auto;
 }
 body{
-    background-color: rgb(37, 37, 37);
+    background-color: var(--backgroundColor);
 }
 #pageContents{
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr;
+}
+#gameContainer{
+    display: grid;
+    grid-column: 2/3;
+    grid-template-rows: 1fr 4fr;
+    background-color: var(--color2);
+    border-radius: 0 30px 0 30px;
+}
+#newGameBtn{
+    grid-column: 1/2;
+    grid-row: 1/2;
+    width: fit-content;
+    height: fit-content;
+    justify-self: center;
+    align-self: center;
+    background-color: var(--color1);
+    color: var(--color4);
+    padding: 0;
+    padding-left: 8px;
+    padding-right: 5px;
+    border: none;
+    border-radius: 0 20px 0 20px;
+    transition: 0.5s;
+
+    &:hover{
+        color: var(--color1);
+        background-color: var(--color4);
+        cursor: pointer;
+        transform: scale(1.2);
+    }
+
+    & > p{
+        font-size: 20pt;
+        margin: 0;
+        padding: 5px;
+    }
+}
+#gridArea{
+    width: 33vw;
+    height: 33vw;
+    justify-self: center;
+    background-color: var(--color3);
+    border-radius: 0 30px 0 30px;
+    margin: 2px;
 }

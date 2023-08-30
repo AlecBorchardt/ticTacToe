@@ -27,7 +27,7 @@ const newGame = (function() {
     'use strict';
     
     let gameBoard = {
-        board : [],
+        board : Array(9),
     }
 
     return { gameBoard }
@@ -35,12 +35,14 @@ const newGame = (function() {
 })();	
 
 //create player object factory.
-function playmaker(nameEntry, symbol){
+function playerMaker(nameEntry, symbol){
     return{
         nameEntry: nameEntry,
         symbol: symbol,
     }
 }
+
+
 
 
 
@@ -51,4 +53,6 @@ when submitted, these populate the pplayer object and launch the game board.
 clicking a box updates the corresponding gameboard array item which updates the board.
 The ai then decides where to put it's symbol.
 when 3 in a row, round winner is announced.
+
+use demo: 
 */

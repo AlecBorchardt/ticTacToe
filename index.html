@@ -5,21 +5,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
-    <script src="javascript.js"></script>
 </head>
 <body>
+
 <div id="pageContents">
     <div id="gameContainer">
 
-        <button id="newGameBtn">
-            <p>New Game</p>
-        </button>
+      <div id="playerSymbol">
+        <p id="playP">H</p>
+      </div>
 
-        <div id="gridArea">
-            <form action="">test</form>
+      <div id="grid">
+        <div id="gridd" display="block">
+          <div id="1" class="tile"></div>
+          <div id="2" class="tile"></div>
+          <div id="3" class="tile"></div>
+          <div id="4" class="tile"></div>
+          <div id="5" class="tile"></div>
+          <div id="6" class="tile"></div>
+          <div id="7" class="tile"></div>
+          <div id="8" class="tile"></div>
+          <div id="9" class="tile"></div>
         </div>
+        <button type="button" value="X" id="x">X</button>
+        <button type="button" value="O" id="o">O</button>
+      </div>
 
+      <div id="computerSymbol">
+        <p id="compP">H</p>
+      </div>
+      
     </div>
 </div>
-</body>
+<script src="javascript.js"></script>
+</body> 
 </html>

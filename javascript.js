@@ -3,7 +3,7 @@ You’re going to store the gameboard as an array inside of a Gameboard object, 
 Your players are also going to be stored in objects, 
 and you’re probably going to want an object to control the flow of the game itself.
 
-if you only ever need ONE of something (gameBoard, displayController), 
+if you only ever need ONE of something (gameBoard), 
 use a module. If you need multiples of something (players!), create them with factories.
 
 write a JavaScript function that will render the contents of the gameboard array to the webpage 
@@ -21,38 +21,88 @@ the game and add a display element that congratulates the winning player!
 create an AI so that a player can play against the computer!
 */
 
-//generate game board module. 
-const newGame = (function() {
-
-    'use strict';
-    
-    let gameBoard = {
-        board : Array(9),
+//create game board object module.
+let GameBoard = (function() {
+    let tileArray = Array(9);
+    return {
+      tileArray: tileArray,
     }
-
-    return { gameBoard }
-
-})();	
+})();
 
 //create player object factory.
-function playerMaker(nameEntry, symbol){
-    return{
-        nameEntry: nameEntry,
-        symbol: symbol,
+let playerFactory = function(name, symbol){
+    let player = { name: name, symbol: symbol, };
+    return player; 
+};
+
+//references to HTML
+let xButton = document.getElementById("x");
+let oButton = document.getElementById("o");
+
+let playerSymbol = document.getElementById("playerSymbol");
+let computerSymbol = document.getElementById("computerSymbol");
+
+let playP = document.getElementById("playP");
+let compP = document.getElementById("compP");
+
+let grid = document.getElementById("grid");
+let gridd = document.getElementsByClassName("tile"); //nodelist [0] thru [8].
+
+//button functions
+let xoChoice = function() {
+
+    let val = this.value;
+    playerSymbol.classList += " pRevealed";
+    computerSymbol.classList += " pRevealed";
+    playP.classList += " pRevealed";
+    compP.classList += " pRevealed";
+
+    if (val == "X") {
+        playP.innerHTML = "X";
+        compP.innerHTML = "O";
     }
+    else {
+        playP.innerHTML = "O";
+        compP.innerHTML = "X";
+    }
+
 }
 
+xButton.addEventListener("click", xoChoice);
+oButton.addEventListener("click", xoChoice);
+
+//this is what runs when the tiles are pressed. not complete.
+let tilePress = function(){
+    
+    //updates the board array.
+    for (let i = 0; i < gridd.length; i++) {
+        gridd[i] = Gameboard.tileArray[i];
+    }
+};
+
+  /* Notes ############################################################################################
 
 
+  
+    EXAMPLE OF MODULE 
 
+            const Game = (() => {
 
-/*
-make button click show form.
-form has two inputs, name and symbol.
-when submitted, these populate the pplayer object and launch the game board.
-clicking a box updates the corresponding gameboard array item which updates the board.
-The ai then decides where to put it's symbol.
-when 3 in a row, round winner is announced.
+                let count = 0;
+            
+                const current = () => { return `Game score is ${count}.` };
+                const increment = () => { count++ };
+                const reset = () => { count = 0 };
+            
+                        return {
+                            current: current,
+                            increment: increment,
+                            reset: reset,
+                        }
+            
+            })();
+            
+            Game.increment();
+            console.log(Game.current());
 
-use demo: 
-*/
+  */

@@ -46,7 +46,8 @@ let playP = document.getElementById("playP");
 let compP = document.getElementById("compP");
 
 let grid = document.getElementById("grid");
-let gridd = document.getElementsByClassName("tile"); //nodelist [0] thru [8].
+let gridd = document.getElementById("gridd");
+let tiles = gridd.children; //nodelist [0] thru [8].
 
 //button functions
 let xoChoice = function() {
@@ -54,6 +55,9 @@ let xoChoice = function() {
     let val = this.value;
     playerSymbol.classList += " pRevealed";
     computerSymbol.classList += " pRevealed";
+    oButton.style.display = "none";
+    xButton.style.display = "none";
+    gridd.style.display = "grid";
     playP.classList += " pRevealed";
     compP.classList += " pRevealed";
 
@@ -73,12 +77,17 @@ oButton.addEventListener("click", xoChoice);
 
 //this is what runs when the tiles are pressed. not complete.
 let tilePress = function(){
-    
+    let tile = this.id;
+    tiles[tile].children[0].innerHTML = playP.innerHTML;
     //updates the board array.
     for (let i = 0; i < gridd.length; i++) {
-        gridd[i] = Gameboard.tileArray[i];
+        GameBoard.tileArray[i] = tiles[i].innerHTML;
     }
 };
+for (let i = 0; i < tiles.length; i++) {
+    tiles[i].addEventListener("click", tilePress);
+}
+
 
   /* Notes ############################################################################################
 

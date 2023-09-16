@@ -1,4 +1,4 @@
-/*
+/* assignment description
 You’re going to store the gameboard as an array inside of a Gameboard object, so start there! 
 Your players are also going to be stored in objects, 
 and you’re probably going to want an object to control the flow of the game itself.
@@ -21,33 +21,47 @@ the game and add a display element that congratulates the winning player!
 create an AI so that a player can play against the computer!
 */
 
-//create game board object module.
+//references to HTML
+let xButton = document.getElementById("x");
+let oButton = document.getElementById("o");
+let playerSymbol = document.getElementById("playerSymbol");
+let computerSymbol = document.getElementById("computerSymbol");
+let playP = document.getElementById("playP");
+let compP = document.getElementById("compP");
+let grid = document.getElementById("grid");
+let gridd = document.getElementById("gridd");
+let tiles = gridd.children; //nodelist [0] thru [8].
+
+//game board object module.
 let GameBoard = (function() {
     let tileArray = Array(9);
+    let updateArray = function(){
+        //NOT WORKING
+        for (let i = 0; i < 9; i++) {
+            tileArray[i] = tiles[i].innerHTML;
+        }
+    };
+    let currentArray = function(){
+        console.log(tileArray);
+    };
+
+    let round = 0;
+    let increment = function() {round++};
     return {
-      tileArray: tileArray,
+        tileArray: tileArray,
+        updateArray: updateArray,
+        currentArray: currentArray,
+
+        round: round,
+        increment: increment,
     }
 })();
 
-//create player object factory.
+//player object factory.
 let playerFactory = function(name, symbol){
     let player = { name: name, symbol: symbol, };
     return player; 
 };
-
-//references to HTML
-let xButton = document.getElementById("x");
-let oButton = document.getElementById("o");
-
-let playerSymbol = document.getElementById("playerSymbol");
-let computerSymbol = document.getElementById("computerSymbol");
-
-let playP = document.getElementById("playP");
-let compP = document.getElementById("compP");
-
-let grid = document.getElementById("grid");
-let gridd = document.getElementById("gridd");
-let tiles = gridd.children; //nodelist [0] thru [8].
 
 //button functions
 let xoChoice = function() {
@@ -68,50 +82,42 @@ let xoChoice = function() {
     else {
         playP.innerHTML = "O";
         compP.innerHTML = "X";
+        tiles[4].children[0].innerHTML = "X"; 
+        let tile = this.id;
+        tiles[tile].removeEventListener("click", tilePress);
     }
 
-}
-
-xButton.addEventListener("click", xoChoice);
-oButton.addEventListener("click", xoChoice);
+};
 
 //this is what runs when the tiles are pressed. not complete.
 let tilePress = function(){
     let tile = this.id;
     tiles[tile].children[0].innerHTML = playP.innerHTML;
+
+
+
     //updates the board array.
-    for (let i = 0; i < gridd.length; i++) {
-        GameBoard.tileArray[i] = tiles[i].innerHTML;
-    }
+    GameBoard.updateArray;
+    alert(GameBoard.tileArray);
+    alert(GameBoard.round);
+    alert(GameBoard.currentArray());
 };
+
+//removes tilePress from pressed tile when pressed.
+let remover = function(){
+    let tile = this.id;
+    tiles[tile].removeEventListener("click", tilePress);
+};
+
+//initial event listeners
+xButton.addEventListener("click", xoChoice);
+oButton.addEventListener("click", xoChoice);
+
 for (let i = 0; i < tiles.length; i++) {
     tiles[i].addEventListener("click", tilePress);
+    tiles[i].addEventListener("click", remover);
 }
 
-
   /* Notes ############################################################################################
-
-
-  
-    EXAMPLE OF MODULE 
-
-            const Game = (() => {
-
-                let count = 0;
-            
-                const current = () => { return `Game score is ${count}.` };
-                const increment = () => { count++ };
-                const reset = () => { count = 0 };
-            
-                        return {
-                            current: current,
-                            increment: increment,
-                            reset: reset,
-                        }
-            
-            })();
-            
-            Game.increment();
-            console.log(Game.current());
 
   */

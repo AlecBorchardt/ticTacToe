@@ -22,39 +22,42 @@ create an AI so that a player can play against the computer!
 */
 
 //references to HTML
-let xButton = document.getElementById("x");
-let oButton = document.getElementById("o");
-let playerSymbol = document.getElementById("playerSymbol");
+let xButton        = document.getElementById("x");
+let oButton        = document.getElementById("o");
+let playerSymbol   = document.getElementById("playerSymbol");
 let computerSymbol = document.getElementById("computerSymbol");
-let playP = document.getElementById("playP");
-let compP = document.getElementById("compP");
-let grid = document.getElementById("grid");
-let gridd = document.getElementById("gridd");
-let tiles = gridd.children; //nodelist [0] thru [8].
+let playP          = document.getElementById("playP");
+let compP          = document.getElementById("compP");
+let grid           = document.getElementById("grid");
+let gridd          = document.getElementById("gridd");
+let tiles          = gridd.children; //nodelist [0] thru [8].
 
 //game board object module.
 let GameBoard = (function() {
+
     let tileArray = Array(9);
-    let updateArray = function(){
-        //NOT WORKING
-        for (let i = 0; i < 9; i++) {
-            tileArray[i] = tiles[i].innerHTML;
+    let round = 0;
+
+    const alterArray = function(e){
+    	let target = e.target.id;
+        tileArray[target.id] = target;
+        console.log(target); 
+    };
+
+    const increment = function(){
+        if(round < 9){
+        round++;
+        console.log(round);
         }
     };
-    let currentArray = function(){
-        console.log(tileArray);
-    };
 
-    let round = 0;
-    let increment = function() {round++};
     return {
-        tileArray: tileArray,
-        updateArray: updateArray,
-        currentArray: currentArray,
-
-        round: round,
-        increment: increment,
+        tileArray,
+        alterArray,
+        round,
+        increment, 
     }
+
 })();
 
 //player object factory.
@@ -83,24 +86,16 @@ let xoChoice = function() {
         playP.innerHTML = "O";
         compP.innerHTML = "X";
         tiles[4].children[0].innerHTML = "X"; 
-        let tile = this.id;
-        tiles[tile].removeEventListener("click", tilePress);
+        tiles[4].removeEventListener("click", tilePress); //flagged as error in browser.
+        GameBoard.increment();
     }
 
 };
 
-//this is what runs when the tiles are pressed. not complete.
-let tilePress = function(){
+//transfers player symbol to tile clicked.
+let tilePress = function(){    
     let tile = this.id;
     tiles[tile].children[0].innerHTML = playP.innerHTML;
-
-
-
-    //updates the board array.
-    GameBoard.updateArray;
-    alert(GameBoard.tileArray);
-    alert(GameBoard.round);
-    alert(GameBoard.currentArray());
 };
 
 //removes tilePress from pressed tile when pressed.
@@ -116,6 +111,7 @@ oButton.addEventListener("click", xoChoice);
 for (let i = 0; i < tiles.length; i++) {
     tiles[i].addEventListener("click", tilePress);
     tiles[i].addEventListener("click", remover);
+    tiles[i].addEventListener("click", GameBoard.increment);
 }
 
   /* Notes ############################################################################################

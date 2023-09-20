@@ -35,13 +35,25 @@ let tiles          = gridd.children; //nodelist [0] thru [8].
 //game board object module.
 let GameBoard = (function() {
 
-    let tileArray = Array(9);
+    let tileArray = [];
+    let xArray = [];
+    let oArray = [];
+    let winStates = [
+        ['0', '1', '2'],
+        ['3', '4', '5'],
+        ['6', '7', '8'],
+        ['0', '3', '6'],
+        ['1', '4', '7'],
+        ['2', '5', '8'],
+        ['0', '4', '8'],
+        ['2', '4', '6'],
+    ];
     let round = 0;
 
-    const alterArray = function(e){
+    const alterTileArray = function(e){
     	let target = e.target.id;
-        tileArray[target.id] = target;
-        console.log(target); 
+        if(tileArray.length < 9){ tileArray.push(target); };
+        console.log(tileArray); 
     };
 
     const increment = function(){
@@ -53,7 +65,7 @@ let GameBoard = (function() {
 
     return {
         tileArray,
-        alterArray,
+        alterTileArray,
         round,
         increment, 
     }
@@ -98,6 +110,27 @@ let tilePress = function(){
     tiles[tile].children[0].innerHTML = playP.innerHTML;
 };
 
+//function that governs computer player turn.
+let skyNet = function(){
+
+if (GameBoard.round = 2){
+    if(playP = "x"){}
+    else{}
+}
+else if (GameBoard.round = 3){
+    if(playP = "x"){}
+    else{}
+}
+else if (GameBoard.round = 4){
+    if(playP = "x"){}
+    else{}
+}
+else if (GameBoard.round = 5){
+    if(playP = "x"){}
+    else{}
+}
+};
+
 //removes tilePress from pressed tile when pressed.
 let remover = function(){
     let tile = this.id;
@@ -112,6 +145,7 @@ for (let i = 0; i < tiles.length; i++) {
     tiles[i].addEventListener("click", tilePress);
     tiles[i].addEventListener("click", remover);
     tiles[i].addEventListener("click", GameBoard.increment);
+    tiles[i].addEventListener("click", GameBoard.alterTileArray);
 }
 
   /* Notes ############################################################################################

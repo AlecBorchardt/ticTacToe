@@ -148,6 +148,39 @@ for (let i = 0; i < tiles.length; i++) {
     tiles[i].addEventListener("click", GameBoard.alterTileArray);
 }
 
-  /* Notes ############################################################################################
+  /* USE THIS AS A BASIS TO MAKE WIN CHECKING/ PER-ROUND CHECK-IF-WIN STUFF.
+let x = [
+  ['0', '1', '2'],
+  ['3', '4', '7'],
+  ['0', '2', '3'],
+];
+
+let y = ['0', '2', '5', '3', '4', ];
+
+//if array y contains all 3 of any of the numbers in the arrays in the x array, trigger win.
+let answerArray = [];
+
+for (let f = 0; f < x.length; f++) {
+  for (let i = 0; i < y.length; i++) {
+    let answer1 = x[f][0] === y[i] ? true : false;
+    answerArray.push(answer1);
+    let answer2 = x[f][1] === y[i] ? true : false;
+    answerArray.push(answer2);
+    let answer3 = x[f][2] === y[i] ? true : false;
+    answerArray.push(answer3);
+  }
+
+  let result = answerArray.filter((item) => item === true);
+
+  console.log(answerArray);
+  console.log(result);
+
+  if (result.length >= 3) {
+    console.log("win!"); //replace with win condition
+  } else {
+    answerArray = [];
+    result = [];
+  }
+}
 
   */

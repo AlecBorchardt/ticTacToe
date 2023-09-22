@@ -35,7 +35,7 @@ let tiles          = gridd.children; //nodelist [0] thru [8].
 //game board object module.
 let GameBoard = (function() {
 
-    let tileArray = [];
+    let tileArray = ['0', '1', '2', '3', '4', '5', '6', '7', '8',];
     let xArray = [];
     let oArray = [];
     let winStates = [
@@ -52,7 +52,10 @@ let GameBoard = (function() {
 
     const alterTileArray = function(e){
     	let target = e.target.id;
-        if(tileArray.length < 9){ tileArray.push(target); };
+        const index = tileArray.indexOf(target);
+        if (index > -1) { 
+            tileArray.splice(index, 1); 
+        }
         console.log(tileArray); 
     };
 
@@ -67,7 +70,10 @@ let GameBoard = (function() {
         tileArray,
         alterTileArray,
         round,
-        increment, 
+        increment,
+        winStates,
+        xArray,
+        oArray, 
     }
 
 })();
@@ -100,6 +106,11 @@ let xoChoice = function() {
         tiles[4].children[0].innerHTML = "X"; 
         tiles[4].removeEventListener("click", tilePress); //flagged as error in browser.
         GameBoard.increment();
+        GameBoard.oArray.push("4");
+        GameBoard.tileArray.splice(4, 1);
+        console.log(GameBoard.xArray);
+        console.log(GameBoard.oArray);
+        console.log(GameBoard.tileArray);
     }
 
 };
@@ -108,28 +119,54 @@ let xoChoice = function() {
 let tilePress = function(){    
     let tile = this.id;
     tiles[tile].children[0].innerHTML = playP.innerHTML;
+
+    if (playP.innerHTML === "X"){
+        GameBoard.xArray.push(tile);
+    }
+    if (playP.innerHTML === "O"){
+        GameBoard.oArray.push(tile);
+    }
+    winStateChecker(GameBoard.winStates, GameBoard.xArray);
+    winStateChecker(GameBoard.winStates, GameBoard.oArray);
 };
+
 
 //function that governs computer player turn.
-let skyNet = function(){
+let computerMove = function(){
+    if (GameBoard.tileArray.length >= 1){
+    let random = function randomNumber(min, max) {
+        return Math.floor(Math.random() * (max - min) + min);
+      }
 
-if (GameBoard.round = 2){
-    if(playP = "x"){}
-    else{}
+    let randoon = random(0, GameBoard.tileArray.length);
+    console.log(randoon); //random index number
+
+    let tile = document.getElementById(GameBoard.tileArray[randoon].toString());
+    console.log(tile);
+
+    const index = GameBoard.tileArray.indexOf(GameBoard.tileArray[randoon].toString());
+        if (index > -1) { 
+            GameBoard.tileArray.splice(index, 1); 
+        }
+        console.log(GameBoard.tileArray); 
+
+    tile.children[0].innerHTML = compP.innerHTML;
+
+    //pushes chosen tile id to x/o array.
+    if (compP.innerHTML === "X"){
+        GameBoard.xArray.push(tile.id);
+    }
+    if (compP.innerHTML === "O"){
+        GameBoard.oArray.push(tile.id);
+    }
 }
-else if (GameBoard.round = 3){
-    if(playP = "x"){}
-    else{}
-}
-else if (GameBoard.round = 4){
-    if(playP = "x"){}
-    else{}
-}
-else if (GameBoard.round = 5){
-    if(playP = "x"){}
-    else{}
-}
+    console.log(GameBoard.xArray);
+    console.log(GameBoard.oArray);
 };
+//gets random number between 0 and one less than what's passed to it. ex: 3 could be 0, 1, or 2.
+let random = function getRandomInt(max) {
+    return Math.floor(Math.random() * max);
+}
 
 //removes tilePress from pressed tile when pressed.
 let remover = function(){
@@ -137,36 +174,70 @@ let remover = function(){
     tiles[tile].removeEventListener("click", tilePress);
 };
 
+let winStateChecker = function(a,b){  
+    
+    let win = 0;
+    let answerArray = [];
+    let winningSymbol = "";
+
+    for (let f = 0; f < a.length; f++) {
+    
+      for (let i = 0; i < b.length; i++) {
+        let answer1 = a[f][0] === b[i] ? true : false;
+        answerArray.push(answer1);
+        let answer2 = a[f][1] === b[i] ? true : false;
+        answerArray.push(answer2);
+        let answer3 = a[f][2] === b[i] ? true : false;
+        answerArray.push(answer3);
+      }
+    
+      let result = answerArray.filter((item) => item === true);
+    
+      console.log(answerArray);
+      console.log(result);
+    
+      if (result.length >= 3) {
+          win++;
+        alert("Somebody Won!");
+        location.reload();
+      } else {
+        answerArray = [];
+        result = [];
+      }
+      if (win === 1){
+      break;
+      }
+    }
+    };
+
 //initial event listeners
 xButton.addEventListener("click", xoChoice);
 oButton.addEventListener("click", xoChoice);
 
 for (let i = 0; i < tiles.length; i++) {
-    tiles[i].addEventListener("click", tilePress);
-    tiles[i].addEventListener("click", remover);
-    tiles[i].addEventListener("click", GameBoard.increment);
-    tiles[i].addEventListener("click", GameBoard.alterTileArray);
+    tiles[i].addEventListener("click", tilePress); //transfers symbol from button to playP.
+    tiles[i].addEventListener("click", remover); //removes tilePress.
+    tiles[i].addEventListener("click", GameBoard.increment); //iterates round for no reason.
+    tiles[i].addEventListener("click", GameBoard.alterTileArray); //generates psychic field to damage ghosts.
+    tiles[i].addEventListener("click", computerMove); //moves for the computer.
 }
 
   /* USE THIS AS A BASIS TO MAKE WIN CHECKING/ PER-ROUND CHECK-IF-WIN STUFF.
-let x = [
-  ['0', '1', '2'],
-  ['3', '4', '7'],
-  ['0', '2', '3'],
-];
 
-let y = ['0', '2', '5', '3', '4', ];
-
-//if array y contains all 3 of any of the numbers in the arrays in the x array, trigger win.
+let winStateChecker = function(a,b){  
+let a = GameBoard.winStates;
+//let b = xArray or oArray depending on which function is running;
+let win = 0;
 let answerArray = [];
 
-for (let f = 0; f < x.length; f++) {
-  for (let i = 0; i < y.length; i++) {
-    let answer1 = x[f][0] === y[i] ? true : false;
+for (let f = 0; f < a.length; f++) {
+
+  for (let i = 0; i < b.length; i++) {
+    let answer1 = a[f][0] === b[i] ? true : false;
     answerArray.push(answer1);
-    let answer2 = x[f][1] === y[i] ? true : false;
+    let answer2 = a[f][1] === b[i] ? true : false;
     answerArray.push(answer2);
-    let answer3 = x[f][2] === y[i] ? true : false;
+    let answer3 = a[f][2] === b[i] ? true : false;
     answerArray.push(answer3);
   }
 
@@ -176,11 +247,15 @@ for (let f = 0; f < x.length; f++) {
   console.log(result);
 
   if (result.length >= 3) {
-    console.log("win!"); //replace with win condition
+  	win++;
+    alert("Win!");
   } else {
     answerArray = [];
     result = [];
   }
+  if (win === 1){
+  break;
+  }
 }
-
+};
   */
